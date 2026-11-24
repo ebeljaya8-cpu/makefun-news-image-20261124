@@ -1,9 +1,12 @@
-// World News Editorial Infographic Entry: Tuesday 24 November 2026
-// Delivers 1024x1024 editorial news infographic to /output/entry.png
-
-import { copyFileSync, mkdirSync } from 'node:fs';
+import { copyFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
-const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-mkdirSync(outDir, { recursive: true });
-copyFileSync(new URL('./entry.png', import.meta.url), join(outDir, 'entry.png'));
+// World News Infographic Generator - Tuesday 24 November 2026
+const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+if (!existsSync(outputDir)) {
+  mkdirSync(outputDir, { recursive: true });
+}
+const destination = join(outputDir, 'entry.png');
+copyFileSync(new URL('./entry.png', import.meta.url), destination);
+console.log(`[makefun] Editorial news infographic written to ${destination}`);
+
